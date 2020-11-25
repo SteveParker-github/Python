@@ -40,18 +40,30 @@ timer_enabled = False
 
 #the main form
 root = tk.Tk()
+root.minsize(MAZESIZE, MAZESIZE+100)
+root.maxsize(MAZESIZE, MAZESIZE+100)
+root.title("Pacman")
+
+def CreateMaze():
+    xPos = CELLSIZE + SPACESIZE
+    yPos = CELLSIZE + SPACESIZE
+    for y in range(NROWSCOLUMNS):
+        yPos = yPos * y
+        for x in range(NROWSCOLUMNS):
+            xPos = xPos * x
+
+
 
 def DrawMaze():
     for x in startMap:
         print(x)
-
 
 #the maze part
 def maze():
     DrawMaze()
 
 #playing with button
-def doSomething():
+def button1_click():
    msg = messagebox.showinfo( "Hello World", "I did something!")
    print("you pressed something")
 
@@ -63,11 +75,6 @@ def Key_Down(event):
     else:
         print("You didn't press the direction key, you pressed ", repr(event.char))
 
-#clicked on the form event
-def callback(event):
-    mainFrame.focus_set()
-    print("clicked at", event.x, event.y)
-
 #when the timer runs do something
 def timer1_tick():
     print("tick")
@@ -75,40 +82,38 @@ def timer1_tick():
         root.after(200, timer1_tick)
 
 #toggles the timer
-def button1():
+def button2_click():
     global timer_enabled 
     timer_enabled = not timer_enabled
     if timer_enabled:
-        B1.text = "Pause Game"
+        button2.configure(text = "Pause Game")
         timer1_tick()
     else:
-        B1.text = "Start Game"
+        button2.configure(text = "Start Game")
 
-#allows the keyboard to be interactive and the mouse buttons
+#allows the keyboard to be interactive
 root.bind("<Key>", Key_Down)
-root.bind("<Button-1>", callback)
 
 #sets the width and height of the form
-canvas = tk.Canvas(root, height=WINDOWHEIGHT, width=WINDOWWIDTH)
+canvas = tk.Canvas(root, height = WINDOWHEIGHT, width = WINDOWWIDTH)
 canvas.pack()
 
 #declaring the frame
-mainFrame = tk.Frame(root, bg='#80c1ff')
+mainFrame = tk.Frame(root, bg = '#80c1ff')
 mainFrame.place(relwidth=1, relheight=1)
 
 #frame for the maze
-mazeFrame = tk.Frame(mainFrame, bg='black')
-mazeFrame.place(x=0, y=0, height=MAZESIZE, width=MAZESIZE)
+mazeFrame = tk.Frame(mainFrame, bg = 'black')
+mazeFrame.place(x = 0, y = 0, height = MAZESIZE, width = MAZESIZE)
 
 
 #declaring the button
-B = tk.Button(mainFrame, text ="New Game", command = doSomething)
-B.place(x =0, y =MAZESIZE+50)
-#B.pack()
+button1 = tk.Button(mainFrame, width = 10, text = "New Game", command = button1_click)
+button1.place(relx = 0.1, y = MAZESIZE+50)
 
-B1 = tk.Button(mainFrame, text ="Start Game", command = button1)
-B1.place(x =50, y =MAZESIZE+50)
-#B.pack()
+button2 = tk.Button(mainFrame, width = 10, text = "Start Game", command = button2_click)
+button2.pack(side = tk.BOTTOM)
+button2.place(relx = 0.45, y = MAZESIZE+50)
 
 #start the form
 root.mainloop()
