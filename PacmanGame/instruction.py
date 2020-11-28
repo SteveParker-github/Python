@@ -8,7 +8,7 @@ class Instruction(SubMain):
     #fields
 
     #constructor
-    def __init__(self, root, goBackButton):
-        SubMain.__init__(self, root, goBackButton)
+    def __init__(self, root):
+        SubMain.__init__(self, root)
         self.titleLabel.configure(text = "Instructions!")
 

@@ -7,19 +7,16 @@ class SubMain:
     #fields
 
     #constructor
-    def __init__(self, root, goBackButton):
+    def __init__(self, root):
         self.root = root
-        self.goBackButton = goBackButton
 
         self.subMainFrame = Frame(self.root, bg = 'black')
-        self.titleLabel = Label(self.subMainFrame, text="title")
+        self.titleLabel = Label(self.subMainFrame, text="title", font = "helvetica 30", bg = 'black', fg = 'white')
         
         self.titleLabel.pack(side = TOP)
 
     def Draw(self):
-        self.subMainFrame.pack()
-        self.goBackButton.pack(side = TOP)
+        self.subMainFrame.pack(fill = BOTH, expand = True)
 
     def Forget(self):
         self.subMainFrame.pack_forget()
-        self.goBackButton.pack_forget()
