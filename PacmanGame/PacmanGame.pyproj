@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>06e6da60-f1a8-4a94-b0d2-dd9e7d922bca</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PacmanGame.pyw</StartupFile>
+    <StartupFile>main.pyw</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +22,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PacmanGame.pyw" />
+    <Compile Include="character.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="game.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="instruction.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="main.pyw" />
+    <Compile Include="maze.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="world.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7" />

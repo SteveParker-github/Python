@@ -1,1 +1,1 @@
-start pythonw PacmanGame.pyw
+start pythonw Main.pyw
