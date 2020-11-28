@@ -3,6 +3,7 @@ import random
 import winsound
 import os
 from instruction import Instruction 
+from highScore import HighScore
 
 class Main:
     #constants
@@ -38,12 +39,10 @@ class Main:
             self.labels[x].grid(column = x * 1, row = 0)
 
         self.playGameButton = Button(self.menuFrame, width = 10, text = "Play Game", command = self.PlayGame)
-        self.highScoreButton = Button(self.menuFrame, width = 10, text = "HighScore", command = self.HighScore)
+        self.highScoreButton = Button(self.menuFrame, width = 10, text = "HighScore", command = self.HighScores)
         self.instructionButton = Button(self.menuFrame, width = 10, text = "Instructions", command = self.Instructions)
         self.exitButton = Button(self.menuFrame, width = 10, text = "Exit", command = self.Exit)
         self.goBackButton = Button(self.root, text = "go back", command = self.GoBack)
-
-        self.highScoreLabel = Label(self.root, text="HighScores!")
 
         self.titleFrame.pack(side = TOP, pady = (20, 20))
         self.playGameButton.pack(side = TOP, pady = (20, 20))
@@ -51,7 +50,8 @@ class Main:
         self.instructionButton.pack(side = TOP, pady = (20, 20))
         self.exitButton.pack(side = TOP, pady = (20 , 0))
 
-        self.instructionMenu = Instruction(self.root, self.menuFrame, self.goBackButton)
+        self.instructionMenu = Instruction(self.root, self.goBackButton)
+        self.highScoreMenu = HighScore(self.root, self.goBackButton)
 
     #the main form
     def MainMenu(self):
@@ -78,11 +78,10 @@ class Main:
         #self.game.Run()
         winsound.PlaySound(self.RESOURCES + self.AUDIO + 'StartGame.wav', winsound.SND_ASYNC)
 
-    def HighScore(self):
+    def HighScores(self):
         winsound.PlaySound(None, winsound.SND_PURGE)
         self.menuFrame.place_forget()
-        self.highScoreLabel.pack(side = TOP)
-        self.goBackButton.pack(side = TOP)
+        self.highScoreMenu.Draw()
 
     def Instructions(self):
         winsound.PlaySound(None, winsound.SND_PURGE)
@@ -94,9 +93,8 @@ class Main:
         raise SystemExit()
 
     def GoBack(self):
-        self.highScoreLabel.pack_forget()
-        self.instructionMenu.instructionLabel.pack_forget()
-        self.goBackButton.pack_forget()
+        self.instructionMenu.Forget()
+        self.highScoreMenu.Forget()
         self.menuFrame.place(relwidth = 1, relheight = 1)
 
     #start the form

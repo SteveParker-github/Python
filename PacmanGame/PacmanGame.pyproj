@@ -28,11 +28,17 @@
     <Compile Include="game.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="highScore.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="instruction.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.pyw" />
     <Compile Include="maze.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="subMain.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="world.py">

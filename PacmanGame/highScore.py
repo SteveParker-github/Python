@@ -1,8 +1,8 @@
 from tkinter import *
 from subMain import SubMain
 
-#Instruction page to tell the user how to play the game
-class Instruction(SubMain):
+#HighScore page to tell the user the leaderboard in the game
+class HighScore(SubMain):
     #constants
 
     #fields
@@ -10,5 +10,6 @@ class Instruction(SubMain):
     #constructor
     def __init__(self, root, goBackButton):
         SubMain.__init__(self, root, goBackButton)
-        self.titleLabel.configure(text = "Instructions!")
+        self.titleLabel.configure(text = "HighScores!")
+
 
