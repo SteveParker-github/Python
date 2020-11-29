@@ -40,7 +40,7 @@ class HighScore(SubMain):
         self.scoreFrame.pack(side = TOP)
         f = open("HighScores/HighScores.txt", "r")
         self.contents = f.read().splitlines()
-        for i in range(10):
+        for i in range(self.MAXPLAYERS):
            self.names.append(self.contents[i * 2])
            self.scores.append(self.contents[i * 2 + 1])
            print(self.scores[i] + ", " + self.names[i])
