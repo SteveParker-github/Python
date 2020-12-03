@@ -1,10 +1,14 @@
+from tkinter import *
+import os
+
 class Maze():
     """description of class"""
-
+    #constants
     NROWSCOLUMNS = 21
     CELLSIZE = 27
-    SPACESIZE = 1
-
+    #SPACESIZE = 1
+    TOTALCELLS = NROWSCOLUMNS * NROWSCOLUMNS
+    IMAGES = os.getcwd() + "\\Resources\\Images\\"
 
     startMap = "bwwwwwwwwwwwwwwwwwwwb" + \
            "bwkkkkkkkkwkkkkkkkkwb" + \
@@ -15,7 +19,7 @@ class Maze():
            "bwwwwkwwwbwbwwwkwwwwb" + \
            "bbbbwkwbbbbbbbwkwbbbb" + \
            "wwwwwkwbwwbwwbwkwwwww" + \
-           "tbbbbkbbwbbbwbbkbbbbt" + \
+           "bbbbwkbbwbbbwbbkwbbbb" + \
            "wwwwwkwbwwwwwbwkwwwww" + \
            "bbbbwkwbbbbbbbwkwbbbb" + \
            "bwwwwkwbwwwwwbwkwwwwb" + \
@@ -28,19 +32,26 @@ class Maze():
            "bwkkkkkkkkkkkkkkkkkwb" + \
            "bwwwwwwwwwwwwwwwwwwwb" 
 
-    def __init__(self):
-        something = something
+    def __init__(self, root):
+        self.root = root
+        self.currentMap = []
+        self.currentMap[:] = self.startMap
+        self.nKibbles = self.startMap.count
+        self.gameFrame = Frame(self.root, bg = 'black')
+        self.gameCanvas = Canvas(self.gameFrame, width = self.CELLSIZE * self.NROWSCOLUMNS, height = self.CELLSIZE * self.NROWSCOLUMNS, bg = 'black')
+        self.gameCanvas.pack(side = TOP)
+        self.blockType = {"b": PhotoImage(file = self.IMAGES + "Blank.gif"),
+                 "k": PhotoImage(file = self.IMAGES + "Kibble.gif"),
+                 "w": PhotoImage(file = self.IMAGES + "Wall.gif")}
+        for i in range(self.TOTALCELLS):
+            self.nRow = int(i % self.NROWSCOLUMNS)
+            self.nColumn = int(i / self.NROWSCOLUMNS)
+            #self.photo = PhotoImage(file = self.IMAGES + self.blockType[self.currentMap[i]])
+            self.gameCanvas.create_image(self.nRow * 27 + (27 / 2) , self.nColumn * 27 + (27 / 2), image = self.blockType[self.currentMap[i]])
 
-    def CreateMaze():
-        xPos = CELLSIZE + SPACESIZE
-        yPos = CELLSIZE + SPACESIZE
-        for y in range(NROWSCOLUMNS):
-            yPos = yPos * y
-        for x in range(NROWSCOLUMNS):
-            xPos = xPos * x
 
-
-
-    def DrawMaze():
-        for x in startMap:
-            print(x)
+    def DrawMaze(self):
+        for i in range(self.TOTALCELLS):
+            self.photo = PhotoImage(file = self.IMAGES + self.blockType[self.currentMap[i]])
+            self.cellCanvas[i].config(image = self.photo)
+            

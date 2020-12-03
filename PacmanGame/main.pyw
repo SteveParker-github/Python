@@ -4,6 +4,7 @@ import winsound
 import os
 from instruction import Instruction 
 from highScore import HighScore
+from controller import Controller
 
 class Main:
     #constants
@@ -11,7 +12,6 @@ class Main:
     WINDOWHEIGHT = 700
     RESOURCES = os.getcwd() + "\\Resources\\"
     AUDIO = "Audio\\"
-    IMAGES = "Images\\"
     #Fields
     colours = ["red",
                "orange",
@@ -29,8 +29,6 @@ class Main:
         self.root.title = "Pacman"
         self.root.minsize(self.WINDOWWIDTH, self.WINDOWHEIGHT)
 
-        #self.canvas = Canvas(self.root, width = self.WINDOWWIDTH, height = self.WINDOWHEIGHT)
-        #self.canvas.pack()
         self.menuFrame = Frame(self.root, bg = 'black')
         self.titleFrame = Frame(self.menuFrame, bg = 'black')
 
@@ -51,11 +49,11 @@ class Main:
 
         self.instructionMenu = Instruction(self.root)
         self.highScoreMenu = HighScore(self.root)
+        self.controller = Controller(self.root)
 
         self.goBackButton = Button(self.instructionMenu.subMainFrame, text = "go back", command = self.GoBack).pack(side = BOTTOM, pady = (0, 20))
         self.goBackButton = Button(self.highScoreMenu.subMainFrame, text = "go back", command = self.GoBack).pack(side = BOTTOM, pady = (0, 20))
-
-
+                
     #the main form
     def MainMenu(self):
         self.menuFrame.pack(side = TOP, fill = BOTH, expand = True)
@@ -76,10 +74,9 @@ class Main:
         self.root.after(400, self.ChangeColour)
 
     def PlayGame(self):
-        self.menuFrame.place_forget()
-        #self.game = Game(root)
-        #self.game.Run()
+        self.menuFrame.pack_forget()
         winsound.PlaySound(self.RESOURCES + self.AUDIO + 'StartGame.wav', winsound.SND_ASYNC)
+        self.controller.StartNewGame()
 
     def HighScores(self):
         winsound.PlaySound(None, winsound.SND_PURGE)
@@ -100,6 +97,14 @@ class Main:
         self.instructionMenu.Forget()
         self.highScoreMenu.Forget()
         self.menuFrame.pack(side = TOP, fill = BOTH, expand = True)
+
+    #pressed button event
+    def Key_Down(event):
+        #finds if the key was to move or something else
+        if event.char in directionKeys.values():
+            print("you pressed the direction key ", repr(event.char))
+        else:
+            print("You didn't press the direction key, you pressed ", repr(event.char))
 
     #start the form
 if __name__ == '__main__':

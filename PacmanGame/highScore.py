@@ -43,7 +43,6 @@ class HighScore(SubMain):
         for i in range(self.MAXPLAYERS):
            self.names.append(self.contents[i * 2])
            self.scores.append(self.contents[i * 2 + 1])
-           print(self.scores[i] + ", " + self.names[i])
         f.close()
         #create list of labels for positions, another list for player's name and another list for player's score
         for i in range(self.MAXPLAYERS):

@@ -25,7 +25,7 @@
     <Compile Include="character.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="game.py">
+    <Compile Include="controller.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="highScore.py">
