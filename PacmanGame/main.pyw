@@ -91,7 +91,7 @@ class Main:
 
     def Exit(self):
         winsound.PlaySound(None, winsound.SND_PURGE)
-        raise SystemExit()
+        self.root.destroy()
 
     def GoBack(self):
         self.instructionMenu.Forget()
