@@ -38,6 +38,9 @@
     <Compile Include="maze.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pacman.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="subMain.py">
       <SubType>Code</SubType>
     </Compile>

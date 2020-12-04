@@ -1,5 +1,6 @@
 from tkinter import *
 from maze import Maze
+from pacman import Pacman
 
 class Controller():
     """description of class"""
@@ -30,15 +31,16 @@ class Controller():
         self.scoreLabel = Label(self.gameTrackingFrame, text = "0", bg = 'black', fg = 'white', font = "helvetica 20")
         self.scoreLabel.pack(side = LEFT)
 
+        self.pacman = Pacman(self.maze.gameCanvas)
     def StartNewGame(self):
-        #self.maze.DrawMaze()
         self.maze.gameFrame.pack(side = TOP, fill = BOTH, expand = True)
-        #self.gameTrackingFrame.pack(side = BOTTOM)
-        #self.RunGame()
+        self.gameTrackingFrame.pack(side = BOTTOM)
+        self.RunGame()
 
     def RunGame(self):
-        self.maze.DrawMaze()
-        self.root.after(200, RunGame)
+        #self.pacman.MovePosition()
+        self.pacman.MoveImage()
+        self.root.after(200, self.RunGame)
 
     #when the timer runs do something
     def timer1_tick():

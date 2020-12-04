@@ -1,12 +1,12 @@
 from tkinter import *
 import os
+from PIL import Image
 
 class Maze():
     """description of class"""
     #constants
     NROWSCOLUMNS = 21
     CELLSIZE = 27
-    #SPACESIZE = 1
     TOTALCELLS = NROWSCOLUMNS * NROWSCOLUMNS
     IMAGES = os.getcwd() + "\\Resources\\Images\\"
 
@@ -59,12 +59,6 @@ class Maze():
         for i in range(self.TOTALCELLS):
             self.nRow = int(i % self.NROWSCOLUMNS)
             self.nColumn = int(i / self.NROWSCOLUMNS)
-            #self.photo = PhotoImage(file = self.IMAGES + self.blockType[self.currentMap[i]])
-            self.gameCanvas.create_image(self.nRow * 27 + (27 / 2) , self.nColumn * 27 + (27 / 2), image = self.blockType[self.currentMap[i]])
-
-
-    def DrawMaze(self):
-        for i in range(self.TOTALCELLS):
-            self.photo = PhotoImage(file = self.IMAGES + self.blockType[self.currentMap[i]])
-            self.cellCanvas[i].config(image = self.photo)
-            
+            self.gameCanvas.create_image(self.nRow * 27 + (27 / 2) , 
+                                         self.nColumn * 27 + (27 / 2), 
+                                         image = self.blockType[self.currentMap[i]])
