@@ -44,8 +44,8 @@ class Controller():
 
     def RunGame(self):
         #self.pacman.MovePosition()
-        if self.pacman.CheckNoWall(self.maze.currentMap):
-            self.pacman.MoveImage()
+        self.pacman.CheckNoWall(self.maze.currentMap)
+        self.pacman.RedrawImage()
         if self.pacman.EatKibble(self.maze.currentMap):
             self.maze.RemoveKibble(self.pacman.GetGridNumber())
             self.score+= 10
@@ -73,7 +73,7 @@ class Controller():
     def Key_Down(self, event):
         #finds if the key was to move or something else
         if event.char in self.directionKeys:
-            self.pacman.direction = self.directionKeys[event.char]
+            self.pacman.nextDirection = self.directionKeys[event.char]
         else:
             print("You didn't press the direction key, you pressed ", repr(event.char))
 

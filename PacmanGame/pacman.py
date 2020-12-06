@@ -13,8 +13,12 @@ class Pacman(Character):
     NROWSCOLUMNS = 21
     IMAGES = os.getcwd() + "\\Resources\\Images\\"
 
+    nextDirection = "right"
+
     def __init__(self, mazeCanvas):
         self.mazeCanvas = mazeCanvas
+        self.WALLS.append("B")
+
         self.pacmanType = {"up0": PhotoImage(file = self.IMAGES + "pacman1up.gif"),
                            "up1": PhotoImage(file = self.IMAGES + "pacman2up.gif"),
                            "right0": PhotoImage(file = self.IMAGES + "pacman1right.gif"),
@@ -41,28 +45,36 @@ class Pacman(Character):
         self.position = [self.PACMANX, self.PACMANY]
 
     def MoveImage(self):
-        self.counter += 1
-        self.imageName = self.direction + str(self.counter % 2)
-        self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName]) #by having a tag on the image we can move this into the parent
         self.mazeCanvas.move(self.pacmanImage, 
                              self.directions[self.direction][0], 
                              self.directions[self.direction][1])
 
-    def CheckNoWall(self, currentMap): #this can be placed into the parent class
-        noWall = False
-        checkPositions = [int((self.position[0] + self.directions[self.direction][0]) / self.CELLSIZE),
-                          int((self.position[1] + self.directions[self.direction][1]) / self.CELLSIZE)]
-        print(checkPositions)
-        cellNumber = (checkPositions[1] * self.NROWSCOLUMNS) + checkPositions[0]
-        print(currentMap[cellNumber])
-        if currentMap[cellNumber] not in self.WALLS:
-            noWall = True
-            self.position[0] = checkPositions[0] * self.CELLSIZE
-            self.position[1] = checkPositions[1] * self.CELLSIZE
-        return noWall
+    def RedrawImage(self):
+        self.counter += 1
+        self.imageName = self.direction + str(self.counter % 2)
+        self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName]) #by having a tag on the image we can move this into the parent
+
+    def CheckNoWall(self, currentMap):
+        if self.CheckForWalls(self.nextDirection, currentMap) != None:
+            self.direction = self.nextDirection
+            self.position = self.CheckForWalls(self.nextDirection, currentMap)
+            self.MoveImage()
+        else:
+            if self.CheckForWalls(self.direction, currentMap) != None:
+                self.position = self.CheckForWalls(self.direction, currentMap)
+                self.MoveImage()
+
+    def CheckForWalls(self, testDirection, currentMap):          
+        checkPositions = [self.position[0] + self.directions[testDirection][0],
+                          self.position[1] + self.directions[testDirection][1]]
+        cellNumber = (int(checkPositions[1] / self.CELLSIZE) * self.NROWSCOLUMNS) + int(checkPositions[0] / self.CELLSIZE)
+        if currentMap[cellNumber] in self.WALLS:
+            checkPositions = None
+        return checkPositions
 
     def EatKibble(self, currentMap):
         eatKibble = False
+
         if currentMap[self.GetGridNumber()] == "k":
             eatKibble = True
 
