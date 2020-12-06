@@ -61,5 +61,15 @@ class Pacman(Character):
             self.position[1] = checkPositions[1] * self.CELLSIZE
         return noWall
 
+    def EatKibble(self, currentMap):
+        eatKibble = False
+        if currentMap[self.GetGridNumber()] == "k":
+            eatKibble = True
+
+        return eatKibble
+
+    def GetGridNumber(self):
+        cellNumber = int(self.position[1] / self.CELLSIZE) * self.NROWSCOLUMNS + int(self.position[0] / self.CELLSIZE)
+        return cellNumber
     
     

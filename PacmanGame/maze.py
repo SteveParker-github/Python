@@ -31,6 +31,7 @@ class Maze():
            "b|kkkkkkkkkkkkkkkkk|b" + \
            "bw-----------------sb" 
 
+
     def __init__(self, mainGameFrame):
         self.mainGameFrame = mainGameFrame
         self.currentMap = []
@@ -56,9 +57,18 @@ class Maze():
                  ">": PhotoImage(file = self.IMAGES + "EndEWall.gif"),
                  "<": PhotoImage(file = self.IMAGES + "EndWWall.gif"),
                  "V": PhotoImage(file = self.IMAGES + "EndSWall.gif")}
+
+
         for i in range(self.TOTALCELLS):
             self.nRow = int(i % self.NROWSCOLUMNS)
             self.nColumn = int(i / self.NROWSCOLUMNS)
             self.gameCanvas.create_image(self.nRow * 27 + (27 / 2) , 
                                          self.nColumn * 27 + (27 / 2), 
-                                         image = self.blockType[self.currentMap[i]])
+                                         image = self.blockType[self.currentMap[i]],
+                                         tags = (i))
+
+    def RemoveKibble(self, cellNumber):
+        self.currentMap[cellNumber] = "b"
+        self.gameCanvas.itemconfigure(cellNumber + 1, image = self.blockType["b"])
+        #self.gameCanvas.find_withtag(cellNumber).image = self.blockType["b"]
+        

@@ -14,6 +14,8 @@ class Controller():
                      "s": "down",
                      "d": "right"} 
     timer_enabled = False
+    lives = 3
+    score = 0
 
     def __init__(self, root):
         self.root = root
@@ -23,11 +25,11 @@ class Controller():
         self.gameTrackingFrame = Frame(self.mainGameFrame, bg = 'black')
         self.livesTitleLabel = Label(self.gameTrackingFrame, text = "Lives", bg = 'black', fg = 'white', font = "helvetica 20")
         self.livesTitleLabel.pack(side = LEFT)
-        self.livesLabel = Label(self.gameTrackingFrame, text = "3", bg = 'black', fg = 'white', font = "helvetica 20")
+        self.livesLabel = Label(self.gameTrackingFrame, text = self.lives, bg = 'black', fg = 'white', font = "helvetica 20")
         self.livesLabel.pack(side = LEFT)
         self.scoreTitleLabel = Label(self.gameTrackingFrame, text = "Score: ", bg = 'black', fg = 'white', font = "helvetica 20")
         self.scoreTitleLabel.pack(side = LEFT)
-        self.scoreLabel = Label(self.gameTrackingFrame, text = "0", bg = 'black', fg = 'white', font = "helvetica 20")
+        self.scoreLabel = Label(self.gameTrackingFrame, text = self.score, bg = 'black', fg = 'white', font = "helvetica 20")
         self.scoreLabel.pack(side = LEFT)
 
         self.pacman = Pacman(self.maze.gameCanvas)
@@ -44,6 +46,9 @@ class Controller():
         #self.pacman.MovePosition()
         if self.pacman.CheckNoWall(self.maze.currentMap):
             self.pacman.MoveImage()
+        if self.pacman.EatKibble(self.maze.currentMap):
+            self.maze.RemoveKibble(self.pacman.GetGridNumber())
+            self.score+= 10
         self.root.after(200, self.RunGame)
 
     #when the timer runs do something
