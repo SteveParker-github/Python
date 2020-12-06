@@ -1,5 +1,6 @@
 from tkinter import *
 from character import Character
+from maze import Maze
 
 import os
 
@@ -9,6 +10,7 @@ class Pacman(Character):
     CELLSIZE = 27
     PACMANX = 10 * CELLSIZE
     PACMANY = 15 * CELLSIZE
+    NROWSCOLUMNS = 21
     IMAGES = os.getcwd() + "\\Resources\\Images\\"
 
     def __init__(self, mazeCanvas):
@@ -33,15 +35,31 @@ class Pacman(Character):
                            "9": PhotoImage(file = self.IMAGES + "pacman6up.gif")}
         self.counter = 0
         self.imageName = self.direction + str(self.counter % 2)
-        self.pacmanImage = self.mazeCanvas.create_image(self.PACMANX + (self.CELLSIZE / 2) , 
-                                     self.PACMANY + (self.CELLSIZE / 2), 
-                                     image = self.pacmanType[self.imageName])
+        self.pacmanImage = self.mazeCanvas.create_image(self.PACMANX + (self.CELLSIZE / 2), 
+                                                        self.PACMANY + (self.CELLSIZE / 2), 
+                                                        image = self.pacmanType[self.imageName])
+        self.position = [self.PACMANX, self.PACMANY]
 
     def MoveImage(self):
         self.counter += 1
         self.imageName = self.direction + str(self.counter % 2)
         self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName])
-        self.mazeCanvas.move(self.pacmanImage, self.directions[self.direction][0], self.directions[self.direction][1])
+        self.mazeCanvas.move(self.pacmanImage, 
+                             self.directions[self.direction][0], 
+                             self.directions[self.direction][1])
+
+    def CheckNoWall(self, currentMap):
+        noWall = False
+        checkPositions = [int((self.position[0] + self.directions[self.direction][0]) / self.CELLSIZE),
+                          int((self.position[1] + self.directions[self.direction][1]) / self.CELLSIZE)]
+        print(checkPositions)
+        cellNumber = (checkPositions[1] * self.NROWSCOLUMNS) + checkPositions[0]
+        print(currentMap[cellNumber])
+        if currentMap[cellNumber] not in self.WALLS:
+            noWall = True
+            self.position[0] = checkPositions[0] * self.CELLSIZE
+            self.position[1] = checkPositions[1] * self.CELLSIZE
+        return noWall
 
     
     

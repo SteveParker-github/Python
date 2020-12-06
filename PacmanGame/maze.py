@@ -9,7 +9,6 @@ class Maze():
     CELLSIZE = 27
     TOTALCELLS = NROWSCOLUMNS * NROWSCOLUMNS
     IMAGES = os.getcwd() + "\\Resources\\Images\\"
-
     startMap = "bn--------N--------eb" + \
            "b|kkkkkkkk|kkkkkkkk|b" + \
            "b|k<>k<->kVk<->k<>k|b" + \
@@ -32,12 +31,13 @@ class Maze():
            "b|kkkkkkkkkkkkkkkkk|b" + \
            "bw-----------------sb" 
 
-    def __init__(self, root):
-        self.root = root
+    def __init__(self, mainGameFrame):
+        self.mainGameFrame = mainGameFrame
         self.currentMap = []
         self.currentMap[:] = self.startMap
         self.nKibbles = self.startMap.count
-        self.gameFrame = Frame(self.root, bg = 'black')
+        self.gameFrame = Frame(self.mainGameFrame, bg = 'black')
+        self.gameFrame.pack(side = TOP)
         self.gameCanvas = Canvas(self.gameFrame, width = self.CELLSIZE * self.NROWSCOLUMNS, height = self.CELLSIZE * self.NROWSCOLUMNS, bg = 'black')
         self.gameCanvas.pack(side = TOP)
         self.blockType = {"b": PhotoImage(file = self.IMAGES + "Blank.gif"),

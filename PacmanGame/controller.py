@@ -8,20 +8,19 @@ class Controller():
     WINDOWHEIGHT = 700
     WINDOWWIDTH = 1000
     MAZESIZE = 588 
-
     #fields?
-    directionKeys = {0: 'w',
-                     1: 'a',
-                     2: 's',
-                     3: 'd'} 
+    directionKeys = {"w": "up",
+                     "a": "left",
+                     "s": "down",
+                     "d": "right"} 
     timer_enabled = False
 
     def __init__(self, root):
         self.root = root
 
-        self.maze = Maze(self.root)
-
-        self.gameTrackingFrame = Frame(self.root, bg = 'black')
+        self.mainGameFrame = Frame(self.root, bg = 'black')
+        self.maze = Maze(self.mainGameFrame)
+        self.gameTrackingFrame = Frame(self.mainGameFrame, bg = 'black')
         self.livesTitleLabel = Label(self.gameTrackingFrame, text = "Lives", bg = 'black', fg = 'white', font = "helvetica 20")
         self.livesTitleLabel.pack(side = LEFT)
         self.livesLabel = Label(self.gameTrackingFrame, text = "3", bg = 'black', fg = 'white', font = "helvetica 20")
@@ -32,14 +31,19 @@ class Controller():
         self.scoreLabel.pack(side = LEFT)
 
         self.pacman = Pacman(self.maze.gameCanvas)
+
+        self.mainGameFrame.bind_all("<Key>", self.Key_Down)
+
     def StartNewGame(self):
-        self.maze.gameFrame.pack(side = TOP, fill = BOTH, expand = True)
+        self.mainGameFrame.pack(side = TOP, fill = BOTH, expand = True)
         self.gameTrackingFrame.pack(side = BOTTOM)
-        self.RunGame()
+        self.root.after(00, self.RunGame)
+
 
     def RunGame(self):
         #self.pacman.MovePosition()
-        self.pacman.MoveImage()
+        if self.pacman.CheckNoWall(self.maze.currentMap):
+            self.pacman.MoveImage()
         self.root.after(200, self.RunGame)
 
     #when the timer runs do something
@@ -57,4 +61,14 @@ class Controller():
             timer1_tick()
         else:
             button2.configure(text = "Start Game")
+
+    #pressed button event
+    def Key_Down(self, event):
+        #finds if the key was to move or something else
+        if event.char in self.directionKeys:
+            self.pacman.direction = self.directionKeys[event.char]
+        else:
+            print("You didn't press the direction key, you pressed ", repr(event.char))
+
+
 

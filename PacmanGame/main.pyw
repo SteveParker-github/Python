@@ -53,7 +53,6 @@ class Main:
 
         self.goBackButton = Button(self.instructionMenu.subMainFrame, text = "go back", command = self.GoBack).pack(side = BOTTOM, pady = (0, 20))
         self.goBackButton = Button(self.highScoreMenu.subMainFrame, text = "go back", command = self.GoBack).pack(side = BOTTOM, pady = (0, 20))
-                
     #the main form
     def MainMenu(self):
         self.menuFrame.pack(side = TOP, fill = BOTH, expand = True)
@@ -97,14 +96,6 @@ class Main:
         self.instructionMenu.Forget()
         self.highScoreMenu.Forget()
         self.menuFrame.pack(side = TOP, fill = BOTH, expand = True)
-
-    #pressed button event
-    def Key_Down(event):
-        #finds if the key was to move or something else
-        if event.char in directionKeys.values():
-            print("you pressed the direction key ", repr(event.char))
-        else:
-            print("You didn't press the direction key, you pressed ", repr(event.char))
 
     #start the form
 if __name__ == '__main__':
