@@ -43,12 +43,12 @@ class Pacman(Character):
     def MoveImage(self):
         self.counter += 1
         self.imageName = self.direction + str(self.counter % 2)
-        self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName])
+        self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName]) #by having a tag on the image we can move this into the parent
         self.mazeCanvas.move(self.pacmanImage, 
                              self.directions[self.direction][0], 
                              self.directions[self.direction][1])
 
-    def CheckNoWall(self, currentMap):
+    def CheckNoWall(self, currentMap): #this can be placed into the parent class
         noWall = False
         checkPositions = [int((self.position[0] + self.directions[self.direction][0]) / self.CELLSIZE),
                           int((self.position[1] + self.directions[self.direction][1]) / self.CELLSIZE)]

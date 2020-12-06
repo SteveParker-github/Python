@@ -70,5 +70,4 @@ class Maze():
     def RemoveKibble(self, cellNumber):
         self.currentMap[cellNumber] = "b"
         self.gameCanvas.itemconfigure(cellNumber + 1, image = self.blockType["b"])
-        #self.gameCanvas.find_withtag(cellNumber).image = self.blockType["b"]
         

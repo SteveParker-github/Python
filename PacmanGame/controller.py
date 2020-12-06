@@ -49,6 +49,8 @@ class Controller():
         if self.pacman.EatKibble(self.maze.currentMap):
             self.maze.RemoveKibble(self.pacman.GetGridNumber())
             self.score+= 10
+            self.scoreLabel.config(text = self.score)
+
         self.root.after(200, self.RunGame)
 
     #when the timer runs do something
