@@ -12,8 +12,8 @@ class Pacman(Character):
     PACMANY = 15 * CELLSIZE
     NROWSCOLUMNS = 21
     IMAGES = os.getcwd() + "\\Resources\\Images\\"
-
     nextDirection = "right"
+    counter = 0
 
     def __init__(self, mazeCanvas):
         self.mazeCanvas = mazeCanvas
@@ -37,22 +37,28 @@ class Pacman(Character):
                            "7": PhotoImage(file = self.IMAGES + "pacman5up.gif"),
                            "8": PhotoImage(file = self.IMAGES + "pacman5up1.gif"),
                            "9": PhotoImage(file = self.IMAGES + "pacman6up.gif")}
+        self.ResetPosition()
+
+
+    def ResetPosition(self):
+        self.direction = "right"
         self.counter = 0
         self.imageName = self.direction + str(self.counter % 2)
-        self.pacmanImage = self.mazeCanvas.create_image(self.PACMANX + (self.CELLSIZE / 2), 
-                                                        self.PACMANY + (self.CELLSIZE / 2), 
-                                                        image = self.pacmanType[self.imageName])
+        self.mazeCanvas.create_image(self.PACMANX + (self.CELLSIZE / 2), 
+                                     self.PACMANY + (self.CELLSIZE / 2), 
+                                     tags = "pacman",
+                                     image = self.pacmanType[self.imageName])
         self.position = [self.PACMANX, self.PACMANY]
 
     def MoveImage(self):
-        self.mazeCanvas.move(self.pacmanImage, 
+        self.mazeCanvas.move("pacman", 
                              self.directions[self.direction][0], 
                              self.directions[self.direction][1])
 
     def RedrawImage(self):
         self.counter += 1
         self.imageName = self.direction + str(self.counter % 2)
-        self.mazeCanvas.itemconfig(self.pacmanImage, image = self.pacmanType[self.imageName]) #by having a tag on the image we can move this into the parent
+        self.mazeCanvas.itemconfig("pacman", image = self.pacmanType[self.imageName]) #by having a tag on the image we can move this into the parent
 
     def CheckNoWall(self, currentMap):
         if self.CheckForWalls(self.nextDirection, currentMap) != None:

@@ -15,6 +15,8 @@ class Controller():
                      "s": "down",
                      "d": "right"} 
     timer_enabled = False
+    gameStop = True
+    nextLevel = False
     lives = 3
     score = 0
 
@@ -42,11 +44,17 @@ class Controller():
     def StartNewGame(self):
         self.mainGameFrame.pack(side = TOP, fill = BOTH, expand = True)
         self.gameTrackingFrame.pack(side = BOTTOM)
-        self.root.after(00, self.RunGame)
+        self.StartNextLevel()
+
+    def StartNextLevel(self):
+        self.maze.NewMap()
+        self.pacman.ResetPosition()
+        self.nextLevel = False
+        self.gameStop = False
+        self.RunGame()
 
 
     def RunGame(self):
-        #self.pacman.MovePosition()
         self.pacman.CheckNoWall(self.maze.currentMap)
         self.pacman.RedrawImage()
         if self.pacman.EatItem(self.maze.currentMap, "k"):
@@ -61,29 +69,25 @@ class Controller():
             self.maze.UpdateFruit(self.fruit.fruitLocation, "f")
             self.score += 100
             self.scoreLabel.config(text = self.score)
-        self.root.after(200, self.RunGame)
-
-    #when the timer runs do something
-    def timer1_tick():
-        print("tick")
-        if timer_enabled:
-            root.after(200, timer1_tick)
-
-    #toggles the timer
-    def button2_click():
-        global timer_enabled 
-        timer_enabled = not timer_enabled
-        if timer_enabled:
-            button2.configure(text = "Pause Game")
-            timer1_tick()
-        else:
-            button2.configure(text = "Start Game")
+        if self.maze.nKibbles == 0:
+            self.gameStop = True
+            self.nextLevel = True
+        if not self.gameStop:
+            self.root.after(200, self.RunGame)
+        elif self.nextLevel:
+            self.StartNextLevel()
 
     #pressed button event
     def Key_Down(self, event):
         #finds if the key was to move or something else
         if event.char in self.directionKeys:
             self.pacman.nextDirection = self.directionKeys[event.char]
+        elif event.char == " ":
+            self.gameStop = not self.gameStop
+            if not self.gameStop:
+                self.RunGame()
+            else:
+                print("show an image that the game has paused")
         else:
             print("You didn't press the direction key, you pressed ", repr(event.char))
 

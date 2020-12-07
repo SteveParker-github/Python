@@ -30,13 +30,12 @@ class Maze():
            "b|k<--S->kVk<-S-->k|b" + \
            "b|kkkkkkkkkkkkkkkkk|b" + \
            "bw-----------------sb" 
+    currentMap = []
 
 
     def __init__(self, mainGameFrame):
         self.mainGameFrame = mainGameFrame
-        self.currentMap = []
-        self.currentMap[:] = self.startMap
-        self.nKibbles = self.startMap.count("k")
+        
         self.gameFrame = Frame(self.mainGameFrame, bg = 'black')
         self.gameFrame.pack(side = TOP)
         self.gameCanvas = Canvas(self.gameFrame, width = self.CELLSIZE * self.NROWSCOLUMNS, height = self.CELLSIZE * self.NROWSCOLUMNS, bg = 'black')
@@ -59,20 +58,26 @@ class Maze():
                           "V": PhotoImage(file = self.IMAGES + "EndSWall.gif"),
                           "B": PhotoImage(file = self.IMAGES + "Barrier.gif")}
 
+                
+    def NewMap(self):
+        self.currentMap.clear()
+        self.gameCanvas.delete("all")
+        self.currentMap[:] = self.startMap
+        self.nKibbles = self.startMap.count("k")
 
         for i in range(self.TOTALCELLS):
             nRow = int(i % self.NROWSCOLUMNS)
             nColumn = int(i / self.NROWSCOLUMNS)
-            self.gameCanvas.create_image(nRow * 27 + (27 / 2), 
-                                         nColumn * 27 + (27 / 2), 
+            self.gameCanvas.create_image(nRow * self.CELLSIZE + (self.CELLSIZE / 2), 
+                                         nColumn * self.CELLSIZE + (self.CELLSIZE / 2), 
                                          image = self.blockType[self.currentMap[i]],
-                                         tags = i)
-                
+                                         tags = self.currentMap[i] + str(i))
+
 
     def RemoveKibble(self, cellNumber):
         self.currentMap[cellNumber] = "f"
         self.nKibbles -= 1
-        self.gameCanvas.delete(cellNumber + 1)
+        self.gameCanvas.delete("k" + str(cellNumber))
 
     def UpdateFruit(self, location, char):
         self.currentMap[location] = char
