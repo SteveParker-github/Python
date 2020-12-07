@@ -1,6 +1,7 @@
 from tkinter import *
 from maze import Maze
 from pacman import Pacman
+from fruit import Fruit
 
 class Controller():
     """description of class"""
@@ -34,6 +35,8 @@ class Controller():
 
         self.pacman = Pacman(self.maze.gameCanvas)
 
+        self.fruit = Fruit(self.maze.gameCanvas)
+
         self.mainGameFrame.bind_all("<Key>", self.Key_Down)
 
     def StartNewGame(self):
@@ -46,11 +49,18 @@ class Controller():
         #self.pacman.MovePosition()
         self.pacman.CheckNoWall(self.maze.currentMap)
         self.pacman.RedrawImage()
-        if self.pacman.EatKibble(self.maze.currentMap):
+        if self.pacman.EatItem(self.maze.currentMap, "k"):
             self.maze.RemoveKibble(self.pacman.GetGridNumber())
-            self.score+= 10
+            self.score += 10
             self.scoreLabel.config(text = self.score)
 
+        if self.fruit.Run(self.maze.currentMap, self.maze.nKibbles):
+            self.maze.UpdateFruit(self.fruit.fruitLocation, "F")
+        if self.pacman.EatItem(self.maze.currentMap, "F"):
+            self.fruit.RemoveFruit()
+            self.maze.UpdateFruit(self.fruit.fruitLocation, "f")
+            self.score += 100
+            self.scoreLabel.config(text = self.score)
         self.root.after(200, self.RunGame)
 
     #when the timer runs do something

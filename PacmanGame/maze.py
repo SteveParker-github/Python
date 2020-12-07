@@ -36,7 +36,7 @@ class Maze():
         self.mainGameFrame = mainGameFrame
         self.currentMap = []
         self.currentMap[:] = self.startMap
-        self.nKibbles = self.startMap.count
+        self.nKibbles = self.startMap.count("k")
         self.gameFrame = Frame(self.mainGameFrame, bg = 'black')
         self.gameFrame.pack(side = TOP)
         self.gameCanvas = Canvas(self.gameFrame, width = self.CELLSIZE * self.NROWSCOLUMNS, height = self.CELLSIZE * self.NROWSCOLUMNS, bg = 'black')
@@ -57,14 +57,13 @@ class Maze():
                           ">": PhotoImage(file = self.IMAGES + "EndEWall.gif"),
                           "<": PhotoImage(file = self.IMAGES + "EndWWall.gif"),
                           "V": PhotoImage(file = self.IMAGES + "EndSWall.gif"),
-                          "B": PhotoImage(file = self.IMAGES + "Barrier.gif"),
-                          "f": PhotoImage(file = self.IMAGES + "Fruit.gif")}
+                          "B": PhotoImage(file = self.IMAGES + "Barrier.gif")}
 
 
         for i in range(self.TOTALCELLS):
             nRow = int(i % self.NROWSCOLUMNS)
             nColumn = int(i / self.NROWSCOLUMNS)
-            self.gameCanvas.create_image(nRow * 27 + (27 / 2) , 
+            self.gameCanvas.create_image(nRow * 27 + (27 / 2), 
                                          nColumn * 27 + (27 / 2), 
                                          image = self.blockType[self.currentMap[i]],
                                          tags = i)
@@ -72,6 +71,9 @@ class Maze():
 
     def RemoveKibble(self, cellNumber):
         self.currentMap[cellNumber] = "f"
-        print(cellNumber)
+        self.nKibbles -= 1
         self.gameCanvas.delete(cellNumber + 1)
+
+    def UpdateFruit(self, location, char):
+        self.currentMap[location] = char
         

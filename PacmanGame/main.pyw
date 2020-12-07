@@ -1,5 +1,4 @@
 from tkinter import *
-import random
 import winsound
 import os
 from instruction import Instruction 
