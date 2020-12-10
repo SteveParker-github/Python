@@ -26,10 +26,8 @@ class Character():
         self.direction = self.defaultDirection
         self.position = self.defaultPosition
 
-    #Creates the image into the default position
     def CreateImage(self):
-        #self.imageName = self.name + self.defaultDirection + str(self.counter % 2)
-        self.imageName = self.defaultDirection + str(self.counter % 2)
+        self.imageName = self.direction + str(self.counter % 2)
         self.mazeCanvas.create_image(self.defaultPosition[0] + (self.CELLSIZE / 2), 
                                      self.defaultPosition[1] + (self.CELLSIZE / 2), 
                                      tags = self.name,
@@ -44,13 +42,11 @@ class Character():
     #Places the character into their default position
     def ResetPosition(self):
         self.direction = self.defaultDirection
-        self.counter = 0
-        self.position = self.defaultPosition
         self.mazeCanvas.move(self.name,
-                             self.defaultPosition[0] + (self.CELLSIZE / 2),
-                             self.defaultPosition[1] + (self.CELLSIZE / 2))
+                             self.defaultPosition[0] - self.position[0], 
+                             self.defaultPosition[1] - self.position[1])
 
-    
+        self.position = self.defaultPosition
 
     #Moves the image based on their direction
     def Move(self, currentMap):

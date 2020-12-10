@@ -1,6 +1,5 @@
 from tkinter import *
 from character import Character
-from maze import Maze
 
 class Pacman(Character):
     """description of class"""
@@ -12,7 +11,6 @@ class Pacman(Character):
 
     def __init__(self, mazeCanvas, defaultDirection, defaultPosition, name):
         Character.__init__(self, mazeCanvas, defaultDirection, defaultPosition, name)
-        self.mazeCanvas = mazeCanvas
         self.WALLS.append("B")
 
         self.images = {"up0": PhotoImage(file = self.IMAGES + "pacman1up.gif"),
@@ -33,7 +31,6 @@ class Pacman(Character):
                            "7": PhotoImage(file = self.IMAGES + "pacman5up.gif"),
                            "8": PhotoImage(file = self.IMAGES + "pacman5up1.gif"),
                            "9": PhotoImage(file = self.IMAGES + "pacman6up.gif")}
-        self.ResetPosition()
 
     # checks to see if pacman has eaten either a kibble or the fruit
     def EatItem(self, currentMap, item):

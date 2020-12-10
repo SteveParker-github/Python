@@ -48,11 +48,9 @@ class Controller():
     def StartNewGame(self):
         self.mainGameFrame.pack(side = TOP, fill = BOTH, expand = True)
         self.gameTrackingFrame.pack(side = BOTTOM)
-        self.pacman.CreateImage()
-        for i in range(len(self.ghosts)):
-            self.ghosts[i].CreateImage()
-        #self.StartNextLevel()
         self.maze.NewMap()
+        self.pacman.CreateImage()
+        self.ghosts[0].CreateImage()
         self.gameStop = False
         self.RunGame()
 
