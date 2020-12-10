@@ -1,6 +1,7 @@
 from tkinter import *
 from maze import Maze
 from pacman import Pacman
+from ghost import Ghost
 from fruit import Fruit
 
 class Controller():
@@ -17,8 +18,10 @@ class Controller():
     timer_enabled = False
     gameStop = True
     nextLevel = False
+    died = False
     lives = 3
     score = 0
+    ghosts = []
 
     def __init__(self, root):
         self.root = root
@@ -35,7 +38,8 @@ class Controller():
         self.scoreLabel = Label(self.gameTrackingFrame, text = self.score, bg = 'black', fg = 'white', font = "helvetica 20")
         self.scoreLabel.pack(side = LEFT)
 
-        self.pacman = Pacman(self.maze.gameCanvas)
+        self.pacman = Pacman(self.maze.gameCanvas, "right", [10 * 27, 15 * 27], "pacman")
+        self.ghosts.append(Ghost(self.maze.gameCanvas, "left", [10 * 27, 7 * 27], "blinky"))
 
         self.fruit = Fruit(self.maze.gameCanvas)
 
@@ -44,24 +48,36 @@ class Controller():
     def StartNewGame(self):
         self.mainGameFrame.pack(side = TOP, fill = BOTH, expand = True)
         self.gameTrackingFrame.pack(side = BOTTOM)
-        self.StartNextLevel()
-
-    def StartNextLevel(self):
+        self.pacman.CreateImage()
+        for i in range(len(self.ghosts)):
+            self.ghosts[i].CreateImage()
+        #self.StartNextLevel()
         self.maze.NewMap()
-        self.pacman.ResetPosition()
-        self.nextLevel = False
         self.gameStop = False
         self.RunGame()
 
+    def StartNextLevel(self):
+        self.maze.NewMap()
+        self.RestartGame()
+
+    def RestartGame(self):
+        self.pacman.ResetPosition()
+        for i in range(len(self.ghosts)):
+            self.ghosts[i].ResetPosition()
+        self.nextLevel = False
+        self.gameStop = False
+        self.died = False
+        self.RunGame()
+
+    def GameOver(self):
+        print("GameOver")
 
     def RunGame(self):
-        self.pacman.CheckNoWall(self.maze.currentMap)
-        self.pacman.RedrawImage()
+        self.pacman.Move(self.maze.currentMap)
         if self.pacman.EatItem(self.maze.currentMap, "k"):
             self.maze.RemoveKibble(self.pacman.GetGridNumber())
             self.score += 10
             self.scoreLabel.config(text = self.score)
-
         if self.fruit.Run(self.maze.currentMap, self.maze.nKibbles):
             self.maze.UpdateFruit(self.fruit.fruitLocation, "F")
         if self.pacman.EatItem(self.maze.currentMap, "F"):
@@ -69,13 +85,30 @@ class Controller():
             self.maze.UpdateFruit(self.fruit.fruitLocation, "f")
             self.score += 100
             self.scoreLabel.config(text = self.score)
+        for i in range(len(self.ghosts)):
+            self.ghosts[i].Move(self.maze.currentMap)
+
+
+        for i in range(len(self.ghosts)):
+            if self.ghosts[i].position == self.pacman.position:
+                self.lives -= 1
+                self.livesLabel.config(text = self.lives)
+                self.gameStop = True
+                self.died = True
         if self.maze.nKibbles == 0:
             self.gameStop = True
             self.nextLevel = True
+
+
         if not self.gameStop:
             self.root.after(200, self.RunGame)
         elif self.nextLevel:
             self.StartNextLevel()
+        elif self.died:
+            if self.lives == 0:
+                self.GameOver()
+            else:
+                self.RestartGame()
 
     #pressed button event
     def Key_Down(self, event):

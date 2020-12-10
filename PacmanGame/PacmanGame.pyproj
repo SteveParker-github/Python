@@ -31,6 +31,9 @@
     <Compile Include="fruit.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ghost.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="highScore.py">
       <SubType>Code</SubType>
     </Compile>
