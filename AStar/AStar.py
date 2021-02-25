@@ -27,9 +27,9 @@ startMap = ["bn--------N--------eb",
             "b|kkkkkkkkkkkkkkkkk|b",
             "bw-----------------sb"] 
 
-pacmanLocationx = 2
-pacmanlocationy = 5
-ghostlocationx = 17
+pacmanLocationx = 18
+pacmanlocationy = 9
+ghostlocationx = 3
 ghostlocationy = 9
 
 WALLS = ["n", "e", "w", "s", "N", "E", "W", "S", "^", "<", "V", ">", "|", "-"]
