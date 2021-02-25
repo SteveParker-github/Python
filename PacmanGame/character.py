@@ -23,11 +23,38 @@ class Character():
         self.defaultPosition = defaultPosition
         self.name = name
 
+        self.images = {"pacmanup0": PhotoImage(file = self.IMAGES + "pacman1up.gif"),
+                       "pacmanup1": PhotoImage(file = self.IMAGES + "pacman2up.gif"),
+                       "pacmanright0": PhotoImage(file = self.IMAGES + "pacman1right.gif"),
+                       "pacmanright1": PhotoImage(file = self.IMAGES + "pacman2right.gif"),
+                       "pacmandown0": PhotoImage(file = self.IMAGES + "pacman1down.gif"),
+                       "pacmandown1": PhotoImage(file = self.IMAGES + "pacman2down.gif"),
+                       "pacmanleft0": PhotoImage(file = self.IMAGES + "pacman1left.gif"),
+                       "pacmanleft1": PhotoImage(file = self.IMAGES + "pacman2left.gif"),
+                       "pacman0": PhotoImage(file = self.IMAGES + "pacman2up1.gif"),
+                       "pacman1": PhotoImage(file = self.IMAGES + "pacman2right1.gif"),
+                       "pacman2": PhotoImage(file = self.IMAGES + "pacman2down1.gif"),
+                       "pacman3": PhotoImage(file = self.IMAGES + "pacman2left1.gif"),
+                       "pacman4": PhotoImage(file = self.IMAGES + "pacman2up2.gif"),
+                       "pacman5": PhotoImage(file = self.IMAGES + "pacman3up.gif"),
+                       "pacman6": PhotoImage(file = self.IMAGES + "pacman4up.gif"),
+                       "pacman7": PhotoImage(file = self.IMAGES + "pacman5up.gif"),
+                       "pacman8": PhotoImage(file = self.IMAGES + "pacman5up1.gif"),
+                       "pacman9": PhotoImage(file = self.IMAGES + "pacman6up.gif"),
+                       "blinkyup0": PhotoImage(file = self.IMAGES + "blinky1up.gif"),
+                       "blinkyup1": PhotoImage(file = self.IMAGES + "blinky2up.gif"),
+                       "blinkyright0": PhotoImage(file = self.IMAGES + "blinky1right.gif"),
+                       "blinkyright1": PhotoImage(file = self.IMAGES + "blinky2right.gif"),
+                       "blinkydown0": PhotoImage(file = self.IMAGES + "blinky1down.gif"),
+                       "blinkydown1": PhotoImage(file = self.IMAGES + "blinky2down.gif"),
+                       "blinkyleft0": PhotoImage(file = self.IMAGES + "blinky1left.gif"),
+                       "blinkyleft1": PhotoImage(file = self.IMAGES + "blinky2left.gif")}
+
         self.direction = self.defaultDirection
         self.position = self.defaultPosition
 
     def CreateImage(self):
-        self.imageName = self.direction + str(self.counter % 2)
+        self.imageName = self.name + self.direction + str(self.counter % 2)
         self.mazeCanvas.create_image(self.defaultPosition[0] + (self.CELLSIZE / 2), 
                                      self.defaultPosition[1] + (self.CELLSIZE / 2), 
                                      tags = self.name,
@@ -36,7 +63,7 @@ class Character():
     #Redraws the character's image on the maze
     def RedrawImage(self):
         self.counter += 1
-        self.imageName = self.direction + str(self.counter % 2)
+        self.imageName = self.name + self.direction + str(self.counter % 2)
         self.mazeCanvas.itemconfig(self.name, image = self.images[self.imageName])
 
     #Places the character into their default position
@@ -79,3 +106,9 @@ class Character():
         if currentMap[cellNumber] in self.WALLS:
             checkPositions = None
         return checkPositions
+
+
+    #finds the position of the character in the grid
+    def GetGridNumber(self):
+        gridNumber = int(self.position[1] / self.CELLSIZE) * self.NROWSCOLUMNS + int(self.position[0] / self.CELLSIZE)
+        return gridNumber
