@@ -3,6 +3,7 @@ import os
 from queue import PriorityQueue
 from cell import Cell
 
+#constants
 NROWSCOLUMNS = 21
 startMap = ["bn--------N--------eb",
             "b|kkkkkkkk|kkkkkkkk|b",
@@ -13,7 +14,7 @@ startMap = ["bn--------N--------eb",
             "bw--ekW->bVb<-Ekn--sb",
             "bbbb|k|bbbbbbb|k|bbbb",
             "----skVbn-B-ebVkw----",
-            "bbbb|kbb|bbb|bbk|bbbb",
+            "Tbbbbkbb|bbb|bbkbbbbT",
             "----ek^bw---sb^kn----",
             "bbbb|k|bbbbbbb|k|bbbb",
             "bn--skVb<-N->bVkw--eb",
@@ -27,14 +28,14 @@ startMap = ["bn--------N--------eb",
             "bw-----------------sb"] 
 
 pacmanLocationx = 2
-pacmanlocationy = 19
-ghostlocationx = 18
-ghostlocationy = 1
-
+pacmanlocationy = 5
+ghostlocationx = 17
+ghostlocationy = 9
 
 WALLS = ["n", "e", "w", "s", "N", "E", "W", "S", "^", "<", "V", ">", "|", "-"]
 SPACE = ["b", "k", "B"]
 
+#make the grid 
 def MakeGrid():
     grid = []
 
@@ -46,10 +47,7 @@ def MakeGrid():
 
     return grid
 
-def PrintMap():
-    for i in range(len(currentMap)):
-        print(currentMap[i])
-
+#print cell map onto the console
 def PrintCellMap(grid):
     for i in range(NROWSCOLUMNS):
         temp = ""
@@ -57,17 +55,20 @@ def PrintCellMap(grid):
             temp += grid[i][j].cellType
         print(temp)
 
+#to find the f score
 def h(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
 	return abs(x1 - x2) + abs(y1 - y2)
 
+#backtrack to create path
 def reconstruct_path(came_from, current):
     while current in came_from:
         current = came_from[current]
         if current.cellType != "S":
             current.cellType = "*"
 
+#the main calculation to find the shortest path
 def algorithm(grid, start, end):
 	count = 0
 	open_set = PriorityQueue()
@@ -108,7 +109,7 @@ def algorithm(grid, start, end):
 	return False
 
 
-
+#main method
 def main():
     global currentMap
     currentMap = startMap
